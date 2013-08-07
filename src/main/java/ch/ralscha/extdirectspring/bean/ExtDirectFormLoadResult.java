@@ -18,7 +18,7 @@ package ch.ralscha.extdirectspring.bean;
 /**
  * Represents the result of a FORM_LOAD method call.
  */
-public class ExtDirectFormLoadResult {
+public class ExtDirectFormLoadResult extends JsonViewAware {
 
 	private Object data;
 

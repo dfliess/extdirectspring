@@ -30,7 +30,7 @@ import org.springframework.validation.FieldError;
 /**
  * Represents the result of a FORM_POST method call.
  */
-public class ExtDirectFormPostResult {
+public class ExtDirectFormPostResult extends JsonViewAware {
 
 	private static final String ERRORS_PROPERTY = "errors";
 
