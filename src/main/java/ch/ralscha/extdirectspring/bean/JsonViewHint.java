@@ -17,10 +17,18 @@ package ch.ralscha.extdirectspring.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class JsonViewAware {
+public class JsonViewHint {
 
 	@JsonIgnore
 	private Class<?> jsonView;
+
+	public JsonViewHint() {
+		// default constructor
+	}
+
+	public JsonViewHint(Class<?> jsonView) {
+		this.jsonView = jsonView;
+	}
 
 	public Class<?> getJsonView() {
 		return jsonView;

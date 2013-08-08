@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder(value = { "metaData", "success", "total", "records" })
-public class ExtDirectStoreResult<T> extends JsonViewAware {
+public class ExtDirectStoreResult<T> extends JsonViewHint {
 
 	private Long total;
 

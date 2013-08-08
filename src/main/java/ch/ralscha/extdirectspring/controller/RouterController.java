@@ -58,7 +58,7 @@ import ch.ralscha.extdirectspring.bean.ExtDirectRequest;
 import ch.ralscha.extdirectspring.bean.ExtDirectResponse;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadResult;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
-import ch.ralscha.extdirectspring.bean.JsonViewAware;
+import ch.ralscha.extdirectspring.bean.JsonViewHint;
 import ch.ralscha.extdirectspring.util.ExtDirectSpringUtil;
 import ch.ralscha.extdirectspring.util.MethodInfo;
 import ch.ralscha.extdirectspring.util.MethodInfoCache;
@@ -312,7 +312,11 @@ public class RouterController {
 
 					if (methodInfo.isType(ExtDirectMethodType.FORM_LOAD)
 							&& !ExtDirectFormLoadResult.class.isAssignableFrom(result.getClass())) {
-						result = new ExtDirectFormLoadResult(result);
+						ExtDirectFormLoadResult formLoadResult = new ExtDirectFormLoadResult(result);
+						if (result instanceof JsonViewHint) {
+							formLoadResult.setJsonView(((JsonViewHint) result).getJsonView());							
+						} 
+						result = formLoadResult;
 					} else if ((methodInfo.isType(ExtDirectMethodType.STORE_MODIFY) || methodInfo
 							.isType(ExtDirectMethodType.STORE_READ))
 							&& !ExtDirectStoreReadResult.class.isAssignableFrom(result.getClass())
@@ -472,8 +476,8 @@ public class RouterController {
 	}
 
 	private static Class<?> getJsonView(Object result, Class<?> defaultJsonView) {
-		if (result instanceof JsonViewAware) {
-			Class<?> jsonView = ((JsonViewAware) result).getJsonView();
+		if (result instanceof JsonViewHint) {
+			Class<?> jsonView = ((JsonViewHint) result).getJsonView();
 			if (jsonView != null) {
 				if (jsonView != ExtDirectMethod.NoJsonView.class) {
 					return jsonView;
