@@ -59,6 +59,7 @@ import ch.ralscha.extdirectspring.bean.ExtDirectResponse;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadResult;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
 import ch.ralscha.extdirectspring.bean.JsonViewHint;
+import ch.ralscha.extdirectspring.bean.ModelAndJsonView;
 import ch.ralscha.extdirectspring.util.ExtDirectSpringUtil;
 import ch.ralscha.extdirectspring.util.MethodInfo;
 import ch.ralscha.extdirectspring.util.MethodInfoCache;
@@ -122,20 +123,39 @@ public class RouterController {
 						synchronized (mutex) {
 							Object result = ExtDirectSpringUtil.invoke(configurationService.getApplicationContext(),
 									beanName, methodInfo, parameters);
-							directPollResponse.setData(result);
-							jsonView = getJsonView(result, methodInfo.getJsonView());
+
+							if (result instanceof ModelAndJsonView) {
+								ModelAndJsonView modelAndJsonView = (ModelAndJsonView) result;
+								directPollResponse.setData(modelAndJsonView.getModel());
+								jsonView = getJsonView(modelAndJsonView, methodInfo.getJsonView());
+							} else {
+								directPollResponse.setData(result);
+								jsonView = getJsonView(result, methodInfo.getJsonView());
+							}
 						}
 					} else {
 						Object result = ExtDirectSpringUtil.invoke(configurationService.getApplicationContext(),
 								beanName, methodInfo, parameters);
-						directPollResponse.setData(result);
-						jsonView = getJsonView(result, methodInfo.getJsonView());
+						if (result instanceof ModelAndJsonView) {
+							ModelAndJsonView modelAndJsonView = (ModelAndJsonView) result;
+							directPollResponse.setData(modelAndJsonView.getModel());
+							jsonView = getJsonView(modelAndJsonView, methodInfo.getJsonView());
+						} else {
+							directPollResponse.setData(result);
+							jsonView = getJsonView(result, methodInfo.getJsonView());
+						}
 					}
 				} else {
 					Object result = ExtDirectSpringUtil.invoke(configurationService.getApplicationContext(), beanName,
 							methodInfo, parameters);
-					directPollResponse.setData(result);
-					jsonView = getJsonView(result, methodInfo.getJsonView());
+					if (result instanceof ModelAndJsonView) {
+						ModelAndJsonView modelAndJsonView = (ModelAndJsonView) result;
+						directPollResponse.setData(modelAndJsonView.getModel());
+						jsonView = getJsonView(modelAndJsonView, methodInfo.getJsonView());
+					} else {
+						directPollResponse.setData(result);
+						jsonView = getJsonView(result, methodInfo.getJsonView());
+					}
 				}
 
 			} catch (Exception e) {
@@ -310,12 +330,18 @@ public class RouterController {
 
 				if (result != null) {
 
+					ModelAndJsonView modelAndJsonView = null;
+					if (result instanceof ModelAndJsonView) {
+						modelAndJsonView = (ModelAndJsonView) result;
+						result = modelAndJsonView.getModel();
+					}
+
 					if (methodInfo.isType(ExtDirectMethodType.FORM_LOAD)
 							&& !ExtDirectFormLoadResult.class.isAssignableFrom(result.getClass())) {
 						ExtDirectFormLoadResult formLoadResult = new ExtDirectFormLoadResult(result);
 						if (result instanceof JsonViewHint) {
-							formLoadResult.setJsonView(((JsonViewHint) result).getJsonView());							
-						} 
+							formLoadResult.setJsonView(((JsonViewHint) result).getJsonView());
+						}
 						result = formLoadResult;
 					} else if ((methodInfo.isType(ExtDirectMethodType.STORE_MODIFY) || methodInfo
 							.isType(ExtDirectMethodType.STORE_READ))
@@ -330,7 +356,11 @@ public class RouterController {
 					}
 
 					directResponse.setResult(result);
-					directResponse.setJsonView(getJsonView(result, methodInfo.getJsonView()));
+					if (modelAndJsonView != null) {
+						directResponse.setJsonView(getJsonView(modelAndJsonView, methodInfo.getJsonView()));
+					} else {
+						directResponse.setJsonView(getJsonView(result, methodInfo.getJsonView()));
+					}
 
 				} else {
 					if (methodInfo.isType(ExtDirectMethodType.STORE_MODIFY)

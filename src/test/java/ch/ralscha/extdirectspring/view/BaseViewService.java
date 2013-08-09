@@ -15,6 +15,9 @@
  */
 package ch.ralscha.extdirectspring.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BaseViewService {
 
 	protected Employee createEmployee() {
@@ -27,6 +30,21 @@ public class BaseViewService {
 		e.setSecretKey("mySecret");
 		return e;
 	}
+	
+	protected List<Employee> createEmployees(long no) {
+		List<Employee> employees = new ArrayList<Employee>();
+		for (long i = 1L; i <= no; i++) {
+			Employee e = new Employee();
+			e.setId(i);
+			e.setFirstName("firstName"+i);
+			e.setLastName("lastName"+i);
+			e.setPhone("phone"+i);
+			e.setAddress("address"+i);
+			e.setSecretKey("mySecret"+i);
+			employees.add(e);
+		}
+		return employees;
+	}	
 
 	protected EmployeeWithJsonView createEmployeeWithJsonView(Class<?> jsonView) {
 		EmployeeWithJsonView e = new EmployeeWithJsonView();

@@ -15,11 +15,8 @@
  */
 package ch.ralscha.extdirectspring.bean;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-
 public class ModelAndJsonView extends JsonViewHint {
 
-	@JsonUnwrapped
 	public Object model;
 
 	public ModelAndJsonView() {

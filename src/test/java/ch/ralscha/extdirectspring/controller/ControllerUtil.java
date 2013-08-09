@@ -260,7 +260,7 @@ public class ControllerUtil {
 
 	}
 
-	public static Map<String, Object> sendAndReceiveMap(MockMvc mockMvc, String bean, String method) {
+	public static Object sendAndReceiveObject(MockMvc mockMvc, String bean, String method) {
 		int tid = (int) (Math.random() * 1000);
 
 		MvcResult result = null;
@@ -284,7 +284,12 @@ public class ControllerUtil {
 		assertThat(edResponse.getTid()).isEqualTo(tid);
 		assertThat(edResponse.getWhere()).isNull();
 
-		return (Map<String, Object>) edResponse.getResult();
+		return edResponse.getResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Map<String, Object> sendAndReceiveMap(MockMvc mockMvc, String bean, String method) {
+		return (Map<String, Object>) sendAndReceiveObject(mockMvc, bean, method);
 	}
 
 	public static <T> T readValue(String json, Class<?> clazz) {
