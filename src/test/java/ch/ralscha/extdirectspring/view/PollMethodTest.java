@@ -16,6 +16,7 @@
 package ch.ralscha.extdirectspring.view;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Map;
 
@@ -33,7 +34,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import ch.ralscha.extdirectspring.bean.ExtDirectPollResponse;
 import ch.ralscha.extdirectspring.controller.ControllerUtil;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -110,7 +110,7 @@ public class PollMethodTest extends BaseViewTest {
 		ExtDirectPollResponse response;
 		try {
 			response = ControllerUtil.performPollRequest(mockMvc, bean, method, "theEvent", null, null);
-			Map<String,Object> data = (Map<String,Object>)response.getData();
+			Map<String, Object> data = (Map<String, Object>) response.getData();
 			assertThat(data).hasSize(expectedEntries.length);
 			assertThat(data).contains(expectedEntries);
 		} catch (Exception e) {

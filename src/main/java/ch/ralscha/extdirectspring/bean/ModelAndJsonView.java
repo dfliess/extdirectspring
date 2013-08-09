@@ -15,6 +15,20 @@
  */
 package ch.ralscha.extdirectspring.bean;
 
+import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
+import ch.ralscha.extdirectspring.annotation.ExtDirectMethodType;
+
+/**
+ * A {@link ExtDirectMethod} can return an instance of this class to specify a
+ * JsonView that Jackson uses to serialize the response. Not supported for
+ * {@link ExtDirectMethodType#FORM_POST} and {@link ExtDirectMethodType#SSE}.
+ * <p>
+ * If the property jsonView is set it overrides a jsonView specified on
+ * {@link ExtDirectMethod#jsonView()}.
+ * <p>
+ * To disable a JsonView specified on {@link ExtDirectMethod#jsonView()} set the
+ * property jsonView to {@link ExtDirectMethod.NoJsonView}.
+ */
 public class ModelAndJsonView extends JsonViewHint {
 
 	public Object model;

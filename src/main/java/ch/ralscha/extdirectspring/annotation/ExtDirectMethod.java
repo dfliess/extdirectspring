@@ -22,6 +22,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import ch.ralscha.extdirectspring.bean.ModelAndJsonView;
+
 /**
  * Annotation for methods that should be exposed to a Ext Direct client
  */
@@ -83,10 +85,16 @@ public @interface ExtDirectMethod {
 
 	/**
 	 * (Optional) Specifies a JSON View (filter) that Jackson uses to serialize
-	 * the response.
+	 * the response. Not supported for SSE and FORM_POST methods.
 	 */
 	Class<?> jsonView() default NoJsonView.class;
 
+	/**
+	 * Marker class to override a JsonView at runtime that is specified on the
+	 * {@link ExtDirectMethod#jsonView()} property.
+	 * 
+	 * @see ModelAndJsonView
+	 */
 	public static class NoJsonView {
 		// nothing here
 	}

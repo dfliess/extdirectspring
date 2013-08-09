@@ -24,57 +24,57 @@ import ch.ralscha.extdirectspring.bean.ModelAndJsonView;
 @Service
 public class PollMethodService extends BaseViewService {
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL)
 	public Employee noView() {
 		return createEmployee();
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
 	public Employee annotationSummaryView() {
 		return createEmployee();
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL, jsonView = Views.Detail.class)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL, jsonView = Views.Detail.class)
 	public Employee annotationDetailView() {
 		return createEmployee();
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL)
 	public ModelAndJsonView majSummaryView() {
 		return new ModelAndJsonView(createEmployee(), Views.Summary.class);
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL)
 	public ModelAndJsonView majDetailView() {
 		return new ModelAndJsonView(createEmployee(), Views.Detail.class);
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
 	public ModelAndJsonView overrideMajDetailView() {
 		return new ModelAndJsonView(createEmployee(), Views.Detail.class);
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
 	public ModelAndJsonView overrideMajNoView() {
 		return new ModelAndJsonView(createEmployee(), ExtDirectMethod.NoJsonView.class);
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL)
 	public EmployeeWithJsonView subclassSummaryView() {
 		return createEmployeeWithJsonView(Views.Summary.class);
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL)
 	public EmployeeWithJsonView subclassDetailView() {
 		return createEmployeeWithJsonView(Views.Detail.class);
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
 	public EmployeeWithJsonView overrideSubclassDetailView() {
 		return createEmployeeWithJsonView(Views.Detail.class);
 	}
 
-	@ExtDirectMethod(value=ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
+	@ExtDirectMethod(value = ExtDirectMethodType.POLL, jsonView = Views.Summary.class)
 	public EmployeeWithJsonView overrideSubclassNoView() {
 		return createEmployeeWithJsonView(ExtDirectMethod.NoJsonView.class);
 	}
